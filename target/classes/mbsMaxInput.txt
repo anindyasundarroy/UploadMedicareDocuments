@@ -1,0 +1,155 @@
+{
+  "resourceType": "ExplanationOfBenefit",
+  "contained": [
+    {
+      "resourceType": "Organization",
+      "id": "$organizationID",
+      "identifier": [
+        {
+          "type": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/v2/0203",
+                "code": "NOI",
+                "display": "National Organization Identifier"
+              }
+            ],
+            "text": "HPI-O"
+          },
+          "system": "http://ns.electronichealth.net.au/id/hi/hpio/1.0",
+          "value": "$hpio"
+        }
+      ]
+    },
+    {
+      "resourceType": "Practitioner",
+      "id": "$practitionerID",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/practitioner-classification",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.13.62",
+                "code": "253312",
+                "display": "General Practitioner"
+              }
+            ]
+          }
+        },
+        {
+          "url": "http://ns.electronichealth.net.au/fhir/StructureDefinition/practitioner-organization",
+          "valueReference": {
+            "reference": "#$organizationID"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "type": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/v2/0203",
+                "code": "NPI",
+                "display": "National provider identifier"
+              }
+            ],
+            "text": "HPI-I"
+          },
+          "system": "http://ns.electronichealth.net.au/id/hi/hpii/1.0",
+          "value": "$hpii"
+        }
+      ],
+      "name": [
+        {
+          "family": "Javad",
+          "given": [
+            "Chris"
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "ReferralRequest",
+      "id": "$referralRequestID",
+      "status": "active",
+      "intent": "order",
+      "subject": {
+        "reference": "Patient/f6993a00-695e-46da-b990-a18734fccf43"
+      },
+      "requester": {
+        "agent": {
+          "reference": "#$practitionerID"
+        }
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:$documentId"
+    }
+  ],
+  "subType": [
+    {
+      "fhir_comments": [
+        " This Mapping is pending verification from Agency and HL7 "
+      ],
+      "coding": [
+        {
+          "system": "urn:oid:1.2.36.1.2001.1001.101",
+          "code": "101.16643",
+          "display": "Medicare/DVA Funded Services"
+        }
+      ]
+    }
+  ],
+  "patient": {
+    "reference": "Patient/f6993a00-695e-46da-b990-a18734fccf43"
+  },
+  "created": "$createdDate",
+  "provider": {
+    "reference": "#$practitionerID"
+  },
+  "referral": {
+    "reference": "#$referralRequestID"
+  },
+  "item": [
+    {
+      "sequence": $sequence,
+      "service": {
+        "coding": [
+          {
+            "system": "http://ns.electronichealth.net.au/fhir/StructureDefinition/eob-item-service",
+            "code": "MBS",
+            "display": "Medicare Benefits Schedule"
+          }
+        ]
+      },
+      "modifier": [
+        {
+          "coding": [
+            {
+              "system": "urn:oid:1.2.36.1.2001.1005.21",
+              "code": "11709",
+              "display": "Australian MBS Code"
+            }
+          ]
+        }
+      ],
+      "servicedPeriod": {
+        "start": "$startDate",
+        "end": "$endDate"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/ValueSet/service-place",
+            "code": "21",
+            "display": "Inpatient Hospital"
+          }
+        ]
+      }
+    }
+  ]
+ }
