@@ -1,0 +1,113 @@
+{
+  "resourceType": "ExplanationOfBenefit",
+  "contained": [
+    {
+      "resourceType": "Organization",
+      "id": "$organizationID",
+      "identifier": [
+        {
+          "system": "http://pbs.gov.au/code/manufacturer",
+          "value": "AB"
+        }
+      ],
+      "name": "$organizationName"
+    },
+    {
+      "resourceType": "Medication",
+      "id": "$medicationID",
+      "extension": [
+        {
+          "url": "http://ns.electronichealth.net.au/fhir/StructureDefinition/medication-generic-name",
+          "valueString": "$medicationGenericName"
+        },
+        {
+          "url": "http://ns.electronichealth.net.au/fhir/StructureDefinition/medication-brand",
+          "valueString": "$medicationBrand"
+        },
+        {
+          "url": "http://ns.electronichealth.net.au/fhir/StructureDefinition/medication-form-and-strength",
+          "valueString": "$medicationFromAndStrength"
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://pbs.gov.au/code/item",
+            "version": "v1.0",
+            "code": "08215J",
+            "display": "ATORVASTATIN"
+          }
+        ]
+      },
+      "manufacturer": {
+        "reference": "#$organizationID"
+      }
+    },
+    {
+      "resourceType": "MedicationRequest",
+      "id": "$medicationRequestID",
+      "intent": "order",
+      "medicationReference": {
+        "reference": "#$medicationID"
+      },
+      "subject": {
+        "reference": "Patient/f6993a00-695e-46da-b990-a18734fccf43"
+      },
+      "authoredOn": "$authoredOnDate",
+      "dispenseRequest": {
+        "numberOfRepeatsAllowed": $numberOfRepeatsAllowed
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:$documentId"
+    }
+  ],
+  "type": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/ex-claimtype",
+        "code": "pharmacy",
+        "display": "Pharmacy"
+      }
+    ]
+  },
+  "subType": [
+    {
+      "coding": [
+        {
+          "system": "urn:oid:1.2.36.1.2001.1001.101",
+          "code": "101.16674",
+          "display": "Pharmaceutical Benefit Item"
+        }
+      ]
+    }
+  ],
+  "patient": {
+    "reference": "Patient/f6993a00-695e-46da-b990-a18734fccf43"
+  },
+  "created": "$createdDate",  
+  "prescription": {
+    "reference": "#$medicationRequestID"
+  },
+  "item": [
+    {
+      "sequence": $sequence,
+      "service": {
+        "coding": [
+          {
+            "system": "http://ns.electronichealth.net.au/fhir/StructureDefinition/eob-item-service",
+            "code": "PBS",
+            "display": "Pharmaceutical Benefits Scheme"
+          }
+        ]
+      },
+      "servicedDate": "$servicedDate",
+      "quantity": {
+        "value": $quantityValue 
+      }
+    }
+  ]
+}
