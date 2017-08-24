@@ -11,6 +11,7 @@ import com.pcehr.aws.MedicareDocuments.PostMedicareDocumentService;
 import com.pcehr.aws.MedicareDocuments.ReadFile;
 import com.pcehr.aws.SchemaValidator.SchemaValidator;
 import com.pcehr.aws.UUIDDocIDGenerator.MigrateFile;
+import com.pcehr.aws.UploadStub.GenerateCDA;
 
 public class UploadMedicareDocument {
     static ArrayList<String> list=new ArrayList<String>();
@@ -23,14 +24,18 @@ public class UploadMedicareDocument {
         DataProvider dataProvider=new DataProvider();
         SchemaValidator requestSchema=new SchemaValidator();
         PropertyLoader pl=new PropertyLoader();
+        GenerateCDA generateCDA=new GenerateCDA();
         propertyList=pl.getProperty("pte");
         System.out.println(propertyList);
-        //System.exit(0);
+        
         System.out.println("Please provide the pbs file name: ");
         Scanner s=new Scanner(System.in);
         String pbsFileName=s.next();
         dataParameters=dataProvider.retrieveDataFromInputSheet(pbsFileName);
         list=mf.fileUpdate();
+        String ihi="8003608666803200";
+        generateCDA.cdaGeneration(dataParameters,ihi,list.get(4));
+        System.exit(0);
         String pbsRequestBody=rf.updatePBSContent(list.get(4),list.get(0),list.get(1),list.get(2),dataParameters,pbsFileName);
         System.out.println(pbsRequestBody);
         System.out.println("Please provide the mbs file name: ");

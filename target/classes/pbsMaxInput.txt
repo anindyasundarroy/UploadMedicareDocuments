@@ -33,9 +33,9 @@
         "coding": [
           {
             "system": "http://pbs.gov.au/code/item",
-            "version": "v1.0",
-            "code": "08215J",
-            "display": "ATORVASTATIN"
+            "version": "$codeVersion",
+            "code": "$code",
+            "display": "$displayName"
           }
         ]
       },
